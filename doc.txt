@@ -1,0 +1,184 @@
+# Guide de création de niveaux - Sokoban 3D
+
+## 📁 Emplacement des fichiers
+Placez vos fichiers de niveaux dans le dossier `assets/levels/` avec l'extension `.json`.
+
+**Exemple :** `assets/levels/level1.json`, `assets/levels/mon_niveau.json`
+
+## 🎯 Structure JSON
+
+### Template de base
+```json
+{
+    "name": "Nom du niveau",
+    "width": 8,
+    "height": 6,
+    "playerStart": {"x": 1, "y": 1},
+    "grid": [
+        "########",
+        "#@  .  #",
+        "#  $   #",
+        "#      #",
+        "#   .$ #",
+        "########"
+    ],
+    "legend": {
+        "#": "wall",
+        " ": "floor",
+        "@": "player",
+        "$": "box",
+        ".": "target"
+    }
+}
+```
+
+### Propriétés obligatoires
+
+| Propriété | Type | Description |
+|-----------|------|-------------|
+| `name` | string | Nom affiché du niveau |
+| `width` | number | Largeur de la grille |
+| `height` | number | Hauteur de la grille |
+| `playerStart` | object | Position initiale du joueur `{"x": 0, "y": 0}` |
+| `grid` | array | Grille du niveau (voir symboles ci-dessous) |
+| `legend` | object | Définition des symboles (optionnel mais recommandé) |
+
+## 🔤 Symboles de la grille
+
+| Symbole | Signification | Obligatoire |
+|---------|---------------|-------------|
+| `#` | Mur | ✅ |
+| ` ` (espace) | Sol vide | ✅ |
+| `@` | Position initiale du joueur | ✅ |
+| `$` | Caisse | ✅ |
+| `.` | Cible/Target | ✅ |
+
+## ✅ Règles de conception
+
+### Obligatoires
+1. **Un seul joueur** : Un seul symbole `@` par niveau
+2. **Bordures fermées** : Le niveau doit être entouré de murs `#`
+3. **Équilibre** : Même nombre de caisses `$` et de cibles `.`
+4. **Dimensions cohérentes** : `width` et `height` doivent correspondre à la grille
+
+### Recommandations
+- **Solvabilité** : Testez que le niveau est résolvable
+- **Difficulté progressive** : Commencez simple, augmentez la complexité
+- **Évitez les pièges** : Ne placez pas de caisses dans des coins sans issue
+
+## 📝 Exemples pratiques
+
+### Niveau débutant (4x4)
+```json
+{
+    "name": "Premier pas",
+    "width": 4,
+    "height": 4,
+    "playerStart": {"x": 1, "y": 1},
+    "grid": [
+        "####",
+        "#@$#",
+        "# .#",
+        "####"
+    ]
+}
+```
+
+### Niveau intermédiaire (6x5)
+```json
+{
+    "name": "Double défi",
+    "width": 6,
+    "height": 5,
+    "playerStart": {"x": 1, "y": 2},
+    "grid": [
+        "######",
+        "#    #",
+        "#@$$ #",
+        "#  ..#",
+        "######"
+    ]
+}
+```
+
+### Niveau avancé avec obstacles
+```json
+{
+    "name": "Labyrinthe",
+    "width": 9,
+    "height": 7,
+    "playerStart": {"x": 1, "y": 1},
+    "grid": [
+        "#########",
+        "#@      #",
+        "## ## $ #",
+        "#     # #",
+        "# $##   #",
+        "#   ..  #",
+        "#########"
+    ]
+}
+```
+
+## 🔧 Outils de création
+
+### Méthode manuelle
+1. Dessinez votre niveau sur papier
+2. Transcrivez en JSON
+3. Testez dans le jeu
+
+### Validation automatique
+Le jeu vérifie automatiquement :
+- ✅ Dimensions cohérentes
+- ✅ Présence du joueur
+- ✅ Équilibre caisses/cibles
+- ✅ Structure JSON valide
+
+## 🐛 Erreurs courantes
+
+### ❌ Dimensions incorrectes
+```json
+// ERREUR : width=4 mais la grille fait 6 caractères
+"width": 4,
+"grid": ["######"]
+```
+
+### ❌ Pas de sortie possible
+```json
+// ERREUR : Caisse coincée dans un coin
+"grid": [
+    "####",
+    "#$ #",
+    "## #",
+    "####"
+]
+```
+
+### ❌ Déséquilibre caisses/cibles
+```json
+// ERREUR : 2 caisses mais 1 seule cible
+"grid": [
+    "#####",
+    "#@$$#",
+    "#  .#",
+    "#####"
+]
+```
+
+## 🚀 Test et intégration
+
+1. **Sauvegardez** votre fichier JSON dans `assets/levels/`
+2. **Lancez le jeu** - le niveau sera automatiquement détecté
+3. **Testez la jouabilité** - vérifiez que le niveau est résolvable
+4. **Ajustez si nécessaire**
+
+## 💡 Conseils de game design
+
+- **Commencez simple** : Un objectif clair, peu d'obstacles
+- **Progression logique** : Chaque niveau introduit un nouveau concept
+- **Testez énormément** : Faites tester par d'autres personnes
+- **Inspirez-vous** : Regardez les niveaux existants pour comprendre les mécaniques
+
+---
+
+**Astuce :** Le jeu génère automatiquement des niveaux de test si le dossier `assets/levels/` est vide. Utilisez-les comme base pour vos créations !
