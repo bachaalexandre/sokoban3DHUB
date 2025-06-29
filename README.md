@@ -9,7 +9,6 @@ Un jeu de puzzle Sokoban moderne en 3D développé avec C++ et Raylib.
 - CMake et Git
 - Bibliothèques système pour OpenGL
 
-
 ## 🚀 Installation
 
 ### 1. Cloner le projet
@@ -18,15 +17,8 @@ git clone <votre-repo>
 cd sokoban3d
 ```
 
-### 2. Installer Raylib
-Assurez-vous que Raylib est présent dans le dossier `raylib/` à la racine du projet. Si ce n'est pas le cas :
-
-```bash
-git clone https://github.com/raysan5/raylib.git
-cd raylib
-git checkout 4.5.0
-cd ..
-```
+### 2. Raylib inclus
+Raylib est déjà inclus dans le projet. Aucune installation supplémentaire n'est nécessaire.
 
 ### 3. Compiler le projet
 ```bash
@@ -40,12 +32,38 @@ make
 ./sokoban3d
 ```
 
-## 🔧 Commandes Makefile
+## 🔧 Gestion Git et Raylib
 
-### Compilation
+### Si vous voyez l'avertissement Git sur le repository imbriqué
+
+Raylib étant inclus comme sous-dossier, Git peut afficher un avertissement. Vous avez plusieurs options :
+
+**Option 1 - Utiliser un submodule Git (recommandé) :**
+```bash
+git rm --cached raylib
+git commit -m "Remove raylib from direct tracking"
+
+git submodule add https://github.com/raysan5/raylib.git raylib
+git commit -m "Add raylib as submodule"
+```
+
+**Option 2 - Ignorer l'avertissement :**
+```bash
+git config advice.addEmbeddedRepo false
+```
+
+**Option 3 - Garder raylib comme dossier simple :**
+```bash
+rm -rf raylib/.git
+git add raylib
+git commit -m "Include raylib source directly"
+```
+
+## 🔧 Commandes Makefile
 | Commande | Description |
 |----------|-------------|
 | `make` ou `make all` | Compile le projet (mode par défaut) |
+| `make debug` | Compile en mode debug avec symbols (-g -DDEBUG) |
 | `make release` | Compile en mode release optimisé (-O3 -DNDEBUG) |
 
 ### Nettoyage
@@ -84,14 +102,6 @@ sokoban3d/
 └── README.md              # Ce fichier
 ```
 
-## 🛠️ Développement
-
-### Compilation optimisée
-```bash
-make release
-```
-
-
 ## 🎯 Gameplay
 
 ### Contrôles
@@ -102,6 +112,7 @@ make release
 
 ### Objectif
 Poussez toutes les caisses (📦) sur les emplacements cibles (🎯) pour terminer le niveau.
+
 
 
 **Développé par Alexandre Bacha - EPITECH Strasbourg 2025**
